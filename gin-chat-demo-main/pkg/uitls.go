@@ -26,7 +26,7 @@ func GenToken(id string) (aToken, rToken string, err error) {
 		ID: id,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(aTokenTime).Unix(),
-			Issuer:    "waterSystem",
+			Issuer:    "IM",
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -40,7 +40,7 @@ func GenToken(id string) (aToken, rToken string, err error) {
 }
 
 type MyClaims struct {
-	ID string `json:"student_id"`
+	ID string `json:"user_id"`
 	jwt.StandardClaims
 }
 
@@ -156,8 +156,8 @@ func SendCheckCode(email string) (string, error) {
 	m.SetHeader("Subject", "验证码")
 	m.SetBody("text/html", msg)
 	port, _ := strconv.Atoi(conf.EmailPort)
-	d := gomail.NewDialer(conf.EmailHost, port, conf.EmailUser, conf.EmailPassword) // 设置QQ邮箱的SMTP服务器和端口号
-	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}                             // 跳过证书验证，可在测试阶段使用，生产环境请勿使用此设置
+	d := gomail.NewDialer(conf.EmailHost, port, conf.EmailUser, conf.EmailPassword)
+	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
 	err := d.DialAndSend(m)
 	if err != nil {

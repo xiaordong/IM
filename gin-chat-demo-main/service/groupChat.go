@@ -87,7 +87,7 @@ func BroadcastGroupChatMessages(message *GroupChatMessage) {
 	}
 	for _, client := range clients {
 		if client.ID == message.Sender {
-			continue // 不向发送者自己发送消息
+			continue
 		}
 		select {
 		case client.Send <- msgBytes:
@@ -161,13 +161,11 @@ func (c *GroupChatClient) Read() {
 			log.Printf("客户端: %s 反序列化消息失败: %v\n", c.ID, err)
 			continue
 		}
-
-		// 创建新的GroupChatMessage实例，并填充Timestamp和GroupID
 		groupMessage := &GroupChatMessage{
 			Sender:    receivedMsg.Sender,
 			Content:   receivedMsg.Content,
-			Timestamp: time.Now().Unix(), // 服务器端生成时间戳
-			GroupID:   c.GroupID,         // 使用客户端的GroupID
+			Timestamp: time.Now().Unix(), // 生成时间戳
+			GroupID:   c.GroupID,
 		}
 
 		// 广播消息
@@ -182,7 +180,7 @@ func (c *GroupChatClient) Write() {
 		log.Printf("客户端: %s 的写入协程结束\n", c.ID)
 	}()
 
-	ticker := time.NewTicker(time.Second * 10) // 用于定期发送心跳或其他保活机制
+	ticker := time.NewTicker(time.Second * 10) // 定期发送心跳
 	defer ticker.Stop()
 
 	for {

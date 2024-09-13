@@ -102,7 +102,6 @@ func CreateGroup(c *gin.Context) {
 	res := service.Create(ownerId, groupName, description)
 	c.JSON(200, res)
 }
-
 func JoinGroup(c *gin.Context) {
 	userId, _ := pkg.ParseSet(c)
 	str := c.PostForm("group_id")
@@ -115,7 +114,6 @@ func JoinGroup(c *gin.Context) {
 	res := service.Join(uint(groupID), userId)
 	c.JSON(200, res)
 }
-
 func DeleteGroup(c *gin.Context) {
 	userId, _ := pkg.ParseSet(c)
 	str := c.PostForm("group_id")

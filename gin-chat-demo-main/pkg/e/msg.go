@@ -14,6 +14,7 @@ var MsgFlags = map[int]string{
 	ErrorCreateFile: "创建文件目录失败",
 	ErrorPlaceFile:  "文件放置失败",
 	ErrorCreateData: "创建数据失败",
+	DeleteError:     "删除数据失败",
 	ErrorGroupFull:  "群人数已满",
 	ErrorNoData:     "无法获取群数据",
 	ExistUser:       "用户已在群中",

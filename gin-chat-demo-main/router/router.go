@@ -12,38 +12,38 @@ func NewRouter() *gin.Engine {
 	conf.Init()
 	r := gin.Default()
 	r.Use(gin.Recovery(), gin.Logger())
-	v1 := r.Group("/user")
+	user := r.Group("/user")
 	{
-		v1.GET("ping", func(c *gin.Context) {
+		user.GET("ping", func(c *gin.Context) {
 			c.JSON(200, "success")
 		})
-		v1.POST("/register", api.UserRegister)
-		v1.GET("/login", api.UserLogin)
-		v1.DELETE("/delete", pkg.AuthMiddleware(), api.UserDelete)
-		v1.PUT("/update", pkg.AuthMiddleware(), api.UserUpdate)
-		v1.POST("/emailCheck", pkg.AuthMiddleware(), api.EmailCheck)
-		v1.GET("/find", pkg.AuthMiddleware(), api.FindUser)
-		v1.POST("/upload", service.Upload)
+		user.POST("/register", api.UserRegister)
+		user.GET("/login", api.UserLogin)
+		user.DELETE("/delete", pkg.AuthMiddleware(), api.UserDelete)
+		user.PUT("/update", pkg.AuthMiddleware(), api.UserUpdate)
+		user.POST("/emailCheck", pkg.AuthMiddleware(), api.EmailCheck)
+		user.GET("/find", pkg.AuthMiddleware(), api.FindUser)
+		user.POST("/upload", service.Upload)
 	}
-	v2 := r.Group("/friend")
+	friend := r.Group("/friend")
 	{
-		v2.POST("/add", pkg.AuthMiddleware(), api.AddFriend)
-		v2.PUT("/update", pkg.AuthMiddleware(), api.UpdateFriend)
-		v2.POST("/delete", pkg.AuthMiddleware(), api.DeleteFriend)
-		v2.GET("/list", pkg.AuthMiddleware(), api.ListFriend)
+		friend.POST("/add", pkg.AuthMiddleware(), api.AddFriend)
+		friend.PUT("/update", pkg.AuthMiddleware(), api.UpdateFriend)
+		friend.POST("/delete", pkg.AuthMiddleware(), api.DeleteFriend)
+		friend.GET("/list", pkg.AuthMiddleware(), api.ListFriend)
 	}
-	v3 := r.Group("/group")
+	group := r.Group("/group")
 	{
-		v3.POST("/create", pkg.AuthMiddleware(), api.CreateGroup)
-		v3.POST("/join", pkg.AuthMiddleware(), api.JoinGroup)
-		v3.GET("/mine", pkg.AuthMiddleware(), api.MyGroup)
-		v3.GET("/joined", pkg.AuthMiddleware(), api.GroupJoined)
-		v3.DELETE("/delete", pkg.AuthMiddleware(), api.DeleteGroup)
+		group.POST("/create", pkg.AuthMiddleware(), api.CreateGroup)
+		group.POST("/join", pkg.AuthMiddleware(), api.JoinGroup)
+		group.GET("/mine", pkg.AuthMiddleware(), api.MyGroup)
+		group.GET("/joined", pkg.AuthMiddleware(), api.GroupJoined)
+		group.DELETE("/delete", pkg.AuthMiddleware(), api.DeleteGroup)
 	}
-	v4 := r.Group("/chat")
+	chat := r.Group("/chat")
 	{
-		v4.GET("/ws", service.WsHandler)
-		v4.GET("/group_ws", service.GroupWsHandler)
+		chat.GET("/ws", service.WsHandler)
+		chat.GET("/group_ws", service.GroupWsHandler)
 	}
 	return r
 }

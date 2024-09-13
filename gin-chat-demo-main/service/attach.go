@@ -33,7 +33,7 @@ func Upload(c *gin.Context) {
 		suffix = "." + tem[len(tem)-1]
 	}
 	fileName := fmt.Sprintf("%d%04d%s", time.Now().Unix(), rand.Int31, suffix)
-	dstFile, err := os.Create("./pkg/upload/data/" + fileName)
+	dstFile, err := os.Create("./upload/data/" + fileName)
 	if err != nil {
 		code = e.ErrorCreateFile
 		c.JSON(500, serializer.Response{
@@ -53,7 +53,7 @@ func Upload(c *gin.Context) {
 		})
 		return
 	}
-	url := "./pkg/upload/data/" + fileName
+	url := "./upload/data/" + fileName
 	c.JSON(200, serializer.Response{
 		Status: e.SUCCESS,
 		Msg:    e.GetMsg(code),
