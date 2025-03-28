@@ -4,6 +4,7 @@ import (
 	"chat/conf"
 	"chat/router"
 	"chat/service"
+	"log"
 )
 
 func main() {
@@ -11,5 +12,9 @@ func main() {
 	go service.Manager.Start()
 	go service.StartGroupChatService()
 	r := router.NewRouter()
-	_ = r.Run(conf.HttpPort)
+	err := r.Run(conf.HttpPort)
+	if err != nil {
+		// 不调用err.error()方法，减少逃逸到堆的情况
+		log.Fatal(err)
+	}
 }
